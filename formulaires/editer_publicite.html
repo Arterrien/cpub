@@ -1,0 +1,105 @@
+#SET{liste_bannieres,#ARRAY}
+<BOUCLE_liste_bannieres(BANNIERES){par nom}>
+	#SET{liste_bannieres, #GET{liste_bannieres}|array_merge{#ARRAY{#NOM, #NOM}}}
+</BOUCLE_liste_bannieres>
+
+<div class='formulaire_spip formulaire_editer formulaire_#FORM formulaire_#FORM-#ENV{id_publicite,nouveau}'>
+	[<p class="reponse_formulaire reponse_formulaire_ok">(#ENV**{message_ok})</p>]
+	[<p class="reponse_formulaire reponse_formulaire_erreur">(#ENV*{message_erreur})</p>]
+
+	[(#ENV{editable})
+	<form method='post' action='#ENV{action}' enctype='multipart/form-data'><div>
+		#ACTION_FORMULAIRE{#ENV{action}}
+		<input type='hidden' name='id_publicite' value='#ENV{id_publicite}' />
+		[<(#VAL{ul}|saisie_balise_structure_formulaire) class='editer-groupe'>]
+
+			[(#SAISIE{input, titre, obligatoire=oui,
+				label=<:publicite:champ_titre_label:>})]
+
+			[(#SAISIE{input, annonceur,
+				label=<:publicite:champ_annonceur_label:>})]
+
+			[<(#VAL{li}|saisie_balise_structure_formulaire) class='fieldset'>]
+				<fieldset>
+					<legend><:publicite:label_fieldset_affichage:></legend>
+
+					[(#SAISIE{textarea, iframe,
+						label=<:publicite:champ_iframe_label:>,rows=3})]
+
+					[(#SAISIE{selection, banniere, defaut=Choisir,
+						label=<:banniere:titre_banniere:>,
+						datas=#GET{liste_bannieres}})]
+
+					[(#SAISIE{input, rang, label=Rang})]
+				</fieldset>
+			[</(#VAL{li}|saisie_balise_structure_formulaire)>]
+
+
+			[<(#VAL{li}|saisie_balise_structure_formulaire) class='fieldset'>]
+				<fieldset>
+					<legend><:publicite:label_fieldset_planning:></legend>
+
+					#SET{name,illimite}#SET{erreurs,#ENV**{erreurs}|table_valeur{#GET{name}}}
+					[<(#VAL{li}|saisie_balise_structure_formulaire) class="editer editer_[(#GET{name})][ (#GET{obli})][ (#GET{erreurs}|oui)erreur]">]	
+						<label for="#GET{name}"><:publicite:champ_illimite_label:></label>[
+						<span class='erreur_message'>(#GET{erreurs})</span>
+						]<div class="choix">
+							<input type="radio" name="#GET{name}" id="#GET{name}_oui" value="oui"
+							[(#ENV{#GET{name}}|=={oui}|oui)checked="checked"] /><label for="#GET{name}_oui"><:item_oui:></label>
+							&nbsp;&nbsp;&nbsp;
+							<input type="radio" name="#GET{name}" id="#GET{name}_non" value="non"
+							[(#ENV{#GET{name}}|=={oui}|non)checked="checked"] /><label for="#GET{name}_non"><:item_non:></label>
+						</div>
+					[</(#VAL{li}|saisie_balise_structure_formulaire)>]
+
+					[(#SAISIE{date, date_debut,
+						label=<:publicite:champ_date_debut_label:>,
+						horaire=oui})]
+
+					[(#SAISIE{date, date_fin,
+						label=<:publicite:champ_date_fin_label:>,
+						horaire=oui})]
+				</fieldset>		
+			[</(#VAL{li}|saisie_balise_structure_formulaire)>]
+			
+
+			[<(#VAL{li}|saisie_balise_structure_formulaire) class='fieldset'>]
+				<fieldset>
+					<legend><:publicite:label_fieldset_redirection:></legend>
+
+					[(#SAISIE{input, url_site,
+						label=<:publicite:champ_url_site_label:>,
+						explication=<:publicite:champ_url_site_explication:> })]
+
+					#SET{name,target}#SET{erreurs,#ENV**{erreurs}|table_valeur{#GET{name}}}
+					[<(#VAL{li}|saisie_balise_structure_formulaire) class="editer editer_[(#GET{name})][ (#GET{obli})][ (#GET{erreurs}|oui)erreur]">]	
+						<label for="#GET{name}"><:publicite:champ_target_label:></label>[
+						<span class='erreur_message'>(#GET{erreurs})</span>
+						]<p class="explication">Au clic sur la bannière, faut-il ouvrir un nouvel onglet ?</p>
+						<div class="choix">
+							<input type="radio" name="#GET{name}" id="#GET{name}_oui" value="oui"
+							[(#ENV{#GET{name}}|=={oui}|oui)checked="checked"] /><label for="#GET{name}_oui"><:item_oui:></label>
+							&nbsp;&nbsp;&nbsp;
+							<input type="radio" name="#GET{name}" id="#GET{name}_non" value="non"
+							[(#ENV{#GET{name}}|=={oui}|non)checked="checked"] /><label for="#GET{name}_non"><:item_non:></label>
+						</div>
+					[</(#VAL{li}|saisie_balise_structure_formulaire)>]
+				</fieldset>
+			[</(#VAL{li}|saisie_balise_structure_formulaire)>]
+
+			[<(#VAL{li}|saisie_balise_structure_formulaire) class='fieldset'>]
+				<fieldset>
+					<legend><:publicite:label_fieldset_regie:></legend>
+					[(#SAISIE{input, pixel,
+						label=<:publicite:champ_pixel_label:>, explication='ex : <i>http://www.image.com/img.jpg</i>'})]
+				</fieldset>
+			[</(#VAL{li}|saisie_balise_structure_formulaire)>]
+
+		[</(#VAL{ul}|saisie_balise_structure_formulaire)>]
+
+		[(#REM) ajouter les saisies supplementaires : extra et autre, a cet endroit ]
+		<!--extra-->
+		<p class="boutons"><input type='submit' class='submit' value='<:bouton_enregistrer:>' /></p>
+	</div></form>
+	]
+</div>

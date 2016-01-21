@@ -1,0 +1,9 @@
+<BOUCLE_banniere(BANNIERES){id_banniere=#ENV{id}}{statut?}>
+<div class='infos'>
+[(#SET{texte_objet,<:banniere:titre_banniere:>})]
+<div class='numero'><:titre_cadre_numero_objet{objet=#GET{texte_objet}}:><p>#ID_BANNIERE</p></div>
+
+[(#FORMULAIRE_INSTITUER_OBJET{bannieres,#ID_BANNIERE})]
+
+</div>
+</BOUCLE_banniere>

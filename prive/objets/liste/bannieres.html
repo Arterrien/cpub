@@ -1,0 +1,38 @@
+[(#SET{defaut_tri,#ARRAY{
+	nom,1, 
+	id_banniere,1,
+	points,-1
+}})]<B_liste_bannieres>
+#ANCRE_PAGINATION
+<div class="liste-objets bannieres">
+<table class='spip liste'>
+	[<caption><strong class="caption">(#ENV*{titre,#GRAND_TOTAL|singulier_ou_pluriel{banniere:info_1_banniere,banniere:info_nb_bannieres}})</strong></caption>]
+	<thead>
+		<tr class='first_row'>
+			<th class='picto' scope='col'></th>
+			<th class='statut' scope='col'>[(#TRI{statut,<span title="<:lien_trier_statut|attribut_html:>">#</span>,ajax})]</th> 
+			<th class='nom' scope='col'>[(#TRI{nom,<:banniere:champ_nom_label:>,ajax})]</th>
+			<th><:banniere:dimensions:></th>
+			<th class='id' scope='col'>[(#TRI{id_banniere,<:info_numero_abbreviation:>,ajax})]</th>
+		</tr>
+	</thead>
+	<tbody>
+	<BOUCLE_liste_bannieres(BANNIERES){id_mot?}{id_auteur?}{where?}{statut?}{recherche?}{tri #ENV{par,num nom},#GET{defaut_tri}}{par nom}{pagination #ENV{nb,10}}>
+		<tr class='[(#COMPTEUR_BOUCLE|alterner{row_odd,row_even})]'>
+			<td class='picto'>[(#CHEMIN_IMAGE{banniere-16.png}|balise_img)]</td>
+			<td class='statut'>[(#STATUT|puce_statut{banniere,#ID_BANNIERE})]</td> 
+			<td class='nom principale'>[(#LOGO_BANNIERE|image_reduire{20,26})]<a href="[(#ID_BANNIERE|generer_url_entite{banniere})]" title="<:info_numero_abbreviation|attribut_html:> #ID_BANNIERE">[(#RANG). ]#NOM</a></td>
+			<td class='dimensions'>#LARGEUR x #HAUTEUR</td>
+			<td class='id'>[(#AUTORISER{modifier,banniere,#ID_BANNIERE}|?{
+				<a href="[(#URL_ECRIRE{banniere_edit,id_banniere=#ID_BANNIERE})]">#ID_BANNIERE</a>,
+				#ID_BANNIERE
+			})]</td>
+		</tr>
+	</BOUCLE_liste_bannieres>
+	</tbody>
+</table>
+[<p class='pagination'>(#PAGINATION{prive})</p>]
+</div>
+</B_liste_bannieres>[
+<div class="liste-objets bannieres caption-wrap"><strong class="caption">(#ENV*{sinon,''})</strong></div>
+]<//B_liste_bannieres>

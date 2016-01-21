@@ -1,0 +1,11 @@
+<BOUCLE0(AUTEURS){tout}{id_auteur=#ENV{id}}{lang_select}><?php
+if ([(#ID_AUTEUR|securiser_acces{#ENV{cle},transmettre,#ENV{op}, #ENV{args}}|?{1,0})]) {
+?><B_stats_cpub><:date|trim{':'}|trim:>,<:cpub:impressions|trim{':'}|trim:>,<:cpub:clics|trim{':'}|trim:>
+<BOUCLE_stats_cpub(STATS_PUBS){id_publicite}>[(#DATE|affdate{'Y-m-d'})],#IMPRESSIONS,#CLICS
+</BOUCLE_stats_cpub>Total,[(#VAL{#ID_PUBLICITE}|total_stats{impressions})],[(#VAL{#ID_PUBLICITE}|total_stats{clics})]
+</B_stats_cpub>
+<?php
+} else {
+include_spip('inc/minipres'); 
+echo minipres();
+}?></BOUCLE0>

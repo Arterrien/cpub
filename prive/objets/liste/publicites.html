@@ -1,0 +1,36 @@
+[(#SET{defaut_tri,#ARRAY{
+	titre,1, 
+	id_publicite,1,
+	points,-1
+}})]<B_liste_publicites>
+#ANCRE_PAGINATION
+<div class="liste-objets publicites">
+<table class='spip liste'>
+	[<caption><strong class="caption">(#ENV*{titre,#GRAND_TOTAL|singulier_ou_pluriel{publicite:info_1_publicite,publicite:info_nb_publicites}})</strong></caption>]
+	<thead>
+		<tr class='first_row'>
+			<th class='picto' scope='col'></th>
+			<th class='statut' scope='col'>[(#TRI{statut,<span title="<:lien_trier_statut|attribut_html:>">#</span>,ajax})]</th> 
+			<th class='titre' scope='col'>[(#TRI{titre,<:publicite:champ_titre_label:>,ajax})]</th>
+			<th class='id' scope='col'>[(#TRI{id_publicite,<:info_numero_abbreviation:>,ajax})]</th>
+		</tr>
+	</thead>
+	<tbody>
+	<BOUCLE_liste_publicites(PUBLICITES){id_mot?}{id_auteur?}{where?}{statut?}{recherche?}{tri #ENV{par,num titre},#GET{defaut_tri}}{par titre}{pagination #ENV{nb,10}}>
+		<tr class='[(#COMPTEUR_BOUCLE|alterner{row_odd,row_even})]'>
+			<td class='picto'>[(#CHEMIN_IMAGE{publicite-16.png}|balise_img)]</td>
+			<td class='statut'>[(#STATUT|puce_statut{publicite,#ID_PUBLICITE})]</td> 
+			<td class='titre principale'>[(#LOGO_PUBLICITE|image_reduire{20,26})]<a href="[(#ID_PUBLICITE|generer_url_entite{publicite})]" title="<:info_numero_abbreviation|attribut_html:> #ID_PUBLICITE">[(#RANG). ]#TITRE</a></td>
+			<td class='id'>[(#AUTORISER{modifier,publicite,#ID_PUBLICITE}|?{
+				<a href="[(#URL_ECRIRE{publicite_edit,id_publicite=#ID_PUBLICITE})]">#ID_PUBLICITE</a>,
+				#ID_PUBLICITE
+			})]</td>
+		</tr>
+	</BOUCLE_liste_publicites>
+	</tbody>
+</table>
+[<p class='pagination'>(#PAGINATION{prive})</p>]
+</div>
+</B_liste_publicites>[
+<div class="liste-objets publicites caption-wrap"><strong class="caption">(#ENV*{sinon,''})</strong></div>
+]<//B_liste_publicites>

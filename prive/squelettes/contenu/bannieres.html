@@ -1,0 +1,12 @@
+<h1 class="grostitre"><:publicite:titre_publicites:></h1>
+
+[(#REM) <!-- Barre d'onglets de premier niveau --> ]
+[(#VAL{publicites}|barre_onglets{bannieres})]
+
+<div class="nettoyeur"></div>
+
+<INCLURE{fond=prive/objets/liste/bannieres, par=nom, env, ajax, sinon=<:banniere:info_aucun_banniere:>}>
+
+[(#AUTORISER{creer,banniere})
+	[(#URL_ECRIRE{banniere_edit,new=oui}|icone_verticale{<:banniere:icone_creer_banniere:>,banniere,new,right})]
+]

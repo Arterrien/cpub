@@ -1,0 +1,26 @@
+<div class='formulaire_spip formulaire_editer formulaire_#FORM formulaire_#FORM-#ENV{id_banniere,nouveau}'>
+	[<p class="reponse_formulaire reponse_formulaire_ok">(#ENV**{message_ok})</p>]
+	[<p class="reponse_formulaire reponse_formulaire_erreur">(#ENV*{message_erreur})</p>]
+
+	[(#ENV{editable})
+	<form method='post' action='#ENV{action}'><div>
+		#ACTION_FORMULAIRE{#ENV{action}}
+		<input type='hidden' name='id_banniere' value='#ENV{id_banniere}' />
+		<ul>
+
+			[(#SAISIE{input, nom, obligatoire=oui,
+				label=<:banniere:champ_nom_label:>})]
+
+			[(#SAISIE{input, largeur, obligatoire=oui,
+				label=<:banniere:champ_largeur_label:>, explication='Largeur en pixels'})]
+
+			[(#SAISIE{input, hauteur, obligatoire=oui,
+				label=<:banniere:champ_hauteur_label:>, explication='Hauteur en pixels'})]
+
+		</ul>
+		[(#REM) ajouter les saisies supplementaires : extra et autre, a cet endroit ]
+		<!--extra-->
+		<p class="boutons"><input type='submit' class='submit' value='<:bouton_enregistrer:>' /></p>
+	</div></form>
+	]
+</div>

@@ -1,0 +1,37 @@
+[(#AUTORISER{voir,banniere,#ID_BANNIERE}|sinon_interdire_acces)]
+<BOUCLE_banniere(BANNIERES){id_banniere}{statut==.*}{si #ENV{exec}|=={banniere}}>
+[(#BOITE_OUVRIR{[
+	[(#AUTORISER{modifier,banniere,#ID_BANNIERE})
+		[(#ID_BANNIERE|afficher_qui_edite{banniere}|non)
+			[(#URL_ECRIRE{banniere_edit,id_banniere=#ID_BANNIERE}|icone_verticale{<:banniere:icone_modifier_banniere:>,banniere,edit,right ajax preload})]
+		]
+		[(#ID_BANNIERE|afficher_qui_edite{banniere}|oui)
+			[(#URL_ECRIRE{banniere_edit,id_banniere=#ID_BANNIERE}|icone_verticale{#ID_BANNIERE|afficher_qui_edite{banniere},warning-24,'',right edition_deja ajax preload})]
+		]
+	]
+
+	<h1>[(#RANG). ](#NOM|sinon{<:info_sans_titre:>})[(#CHEMIN_IMAGE{banniere-24.png}|balise_img{banniere,cadre-icone})]</h1>
+
+],simple fiche_objet})]
+
+<div class="ajax">
+	#FORMULAIRE_DATER{banniere,#ID_BANNIERE}
+</div>
+
+<!--affiche_milieu-->
+
+<div id="wysiwyg">
+<INCLURE{fond=prive/objets/contenu/banniere,id=#ID_BANNIERE,id_banniere=#ID_BANNIERE,virtuel=oui,ajax=wysiwyg,wysiwyg=1}>
+</div>
+
+<div class="nettoyeur"></div>
+
+#PIPELINE{afficher_complement_objet,#ARRAY{args,#ARRAY{type,banniere,id,#ID_BANNIERE},data,'<div class="nettoyeur"></div>'}}
+
+#BOITE_FERMER
+[(#EVAL{_AJAX}|oui)
+	<script type="text/javascript">/*<!\\[CDATA\\[*/reloadExecPage('#ENV{exec}','#navigation,#chemin,#extra');/*\\]\\]>*/</script>
+]
+</BOUCLE_banniere>
+[(#ENV**{exec}|=={banniere_edit}|?{#INCLURE{fond=prive/squelettes/contenu/banniere_edit,redirect='',env,retourajax=oui},#REM|sinon_interdire_acces})]
+<//B_banniere>

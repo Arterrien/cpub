@@ -1,0 +1,37 @@
+[(#AUTORISER{voir,publicite,#ID_PUBLICITE}|sinon_interdire_acces)]
+<BOUCLE_publicite(PUBLICITES){id_publicite}{statut==.*}{si #ENV{exec}|=={publicite}}>
+[(#BOITE_OUVRIR{[
+	[(#AUTORISER{modifier,publicite,#ID_PUBLICITE})
+		[(#ID_PUBLICITE|afficher_qui_edite{publicite}|non)
+			[(#URL_ECRIRE{publicite_edit,id_publicite=#ID_PUBLICITE}|icone_verticale{<:publicite:icone_modifier_publicite:>,publicite,edit,right ajax preload})]
+		]
+		[(#ID_PUBLICITE|afficher_qui_edite{publicite}|oui)
+			[(#URL_ECRIRE{publicite_edit,id_publicite=#ID_PUBLICITE}|icone_verticale{#ID_PUBLICITE|afficher_qui_edite{publicite},warning-24,'',right edition_deja ajax preload})]
+		]
+	]
+
+	<h1>[(#RANG). ](#TITRE|sinon{<:info_sans_titre:>})[(#CHEMIN_IMAGE{publicite-24.png}|balise_img{publicite,cadre-icone})]</h1>
+
+],simple fiche_objet})]
+
+<div class="ajax">
+	#FORMULAIRE_DATER{publicite,#ID_PUBLICITE}
+</div>
+
+<!--affiche_milieu-->
+
+<div id="wysiwyg">
+<INCLURE{fond=prive/objets/contenu/publicite,id=#ID_PUBLICITE,id_publicite=#ID_PUBLICITE,virtuel=oui,ajax=wysiwyg,wysiwyg=1}>
+</div>
+
+<div class="nettoyeur"></div>
+
+#PIPELINE{afficher_complement_objet,#ARRAY{args,#ARRAY{type,publicite,id,#ID_PUBLICITE},data,'<div class="nettoyeur"></div>'}}
+
+#BOITE_FERMER
+[(#EVAL{_AJAX}|oui)
+	<script type="text/javascript">/*<!\\[CDATA\\[*/reloadExecPage('#ENV{exec}','#navigation,#chemin,#extra');/*\\]\\]>*/</script>
+]
+</BOUCLE_publicite>
+[(#ENV**{exec}|=={publicite_edit}|?{#INCLURE{fond=prive/squelettes/contenu/publicite_edit,redirect='',env,retourajax=oui},#REM|sinon_interdire_acces})]
+<//B_publicite>

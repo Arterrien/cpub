@@ -1,0 +1,578 @@
+Only in ../plugins/fabrique_auto/.backup/cpub/: .DS_Store
+Only in ../plugins/fabrique_auto/.backup/cpub/: action_stats.html
+diff -r -x . -x .. -x fabrique_diff.diff -x fabrique_cpub.php ../plugins/fabrique_auto/.backup/cpub/base/cpub.php ../plugins/fabrique_auto/cpub/base/cpub.php
+6c6
+<  * @copyright  2015
+---
+>  * @copyright  2016
+28d27
+< 	$interfaces['table_des_tables']['stats_pubs'] = 'stats_pubs';
+49,63c48,59
+< 			"id_publicite"	=> "bigint(21) NOT NULL",
+< 			"id_banniere"	=> "bigint(21) NOT NULL",
+< 			"id_rubrique"	=> "bigint(21) NOT NULL DEFAULT 0",
+< 			"id_secteur"	=> "bigint(21) NOT NULL DEFAULT 0",
+< 			"titre"			=> "text NOT NULL DEFAULT ''",
+< 			"annonceur"		=> "varchar(255) NOT NULL DEFAULT ''",
+< 			"iframe"		=> "text NOT NULL DEFAULT ''",
+< 			"illimite"		=> "varchar(3) NOT NULL DEFAULT 'non'",
+< 			"date_debut"	=> "datetime NOT NULL DEFAULT '0000-00-00 00:00:00'",
+< 			"date_fin"		=> "datetime NOT NULL DEFAULT '0000-00-00 00:00:00'",
+< 			"url_site"		=> "text NOT NULL DEFAULT ''",
+< 			"target"		=> "varchar(3) NOT NULL DEFAULT 'non'",
+< 			"pixel"			=> "text NOT NULL DEFAULT ''",
+< 			"statut"		=> "varchar(20)  DEFAULT '0' NOT NULL",
+< 			"maj"			=> "TIMESTAMP"
+---
+> 			"id_publicite"       => "bigint(21) NOT NULL",
+> 			"titre"              => "text NOT NULL DEFAULT ''",
+> 			"annonceur"          => "varchar(255) NOT NULL DEFAULT ''",
+> 			"iframe"             => "text NOT NULL DEFAULT ''",
+> 			"illimite"           => "varchar(3) NOT NULL DEFAULT 'non'",
+> 			"date_debut"         => "datetime NOT NULL DEFAULT '0000-00-00 00:00:00'",
+> 			"date_fin"           => "datetime NOT NULL DEFAULT '0000-00-00 00:00:00'",
+> 			"url_site"           => "text NOT NULL DEFAULT ''",
+> 			"target"             => "varchar(3) NOT NULL DEFAULT 'non'",
+> 			"pixel"              => "text NOT NULL DEFAULT ''",
+> 			"statut"             => "varchar(20)  DEFAULT '0' NOT NULL",
+> 			"maj"                => "TIMESTAMP"
+66,69c62,63
+< 			"PRIMARY KEY"		=> "id_publicite",
+< 			"KEY id_rubrique"	=> "id_rubrique",
+< 			"KEY id_secteur"	=> "id_secteur",
+< 			"KEY statut"		=> "statut",
+---
+> 			"PRIMARY KEY"        => "id_publicite",
+> 			"KEY statut"         => "statut",
+73,81c67,76
+< 		'champs_editables'	=> array('id_banniere', 'titre', 'annonceur', 'iframe', 'illimite', 'date_debut', 'date_fin', 'url_site', 'target', 'pixel'),
+< 		'champs_versionnes'	=> array(),
+< 		'rechercher_champs'	=> array("titre" => 8, "annonceur" => 5),
+< 		'tables_jointures'	=> array(),
+< 		'statut_textes_instituer'	=> array(
+< 			'prepa'		=> 'cpub:texte_statut_inactive',
+< 			'prop'		=> 'texte_statut_propose_evaluation',
+< 			'publie'	=> 'cpub:texte_statut_active',
+< 			'poubelle'	=> 'texte_statut_poubelle',
+---
+> 		'champs_editables'  => array('titre', 'annonceur', 'iframe', 'illimite', 'date_debut', 'date_fin', 'url_site', 'target', 'pixel'),
+> 		'champs_versionnes' => array(),
+> 		'rechercher_champs' => array("titre" => 8, "annonceur" => 5),
+> 		'tables_jointures'  => array(),
+> 		'statut_textes_instituer' => array(
+> 			'prepa'    => 'texte_statut_en_cours_redaction',
+> 			'prop'     => 'texte_statut_propose_evaluation',
+> 			'publie'   => 'texte_statut_publie',
+> 			'refuse'   => 'texte_statut_refuse',
+> 			'poubelle' => 'texte_statut_poubelle',
+85,89c80,84
+< 				'champ'		=> 'statut',
+< 				'publie'	=> 'publie',
+< 				'previsu'	=> 'publie,prop,prepa',
+< 				'post_date'	=> 'date',
+< 				'exception'	=> array('statut','tout')
+---
+> 				'champ'     => 'statut',
+> 				'publie'    => 'publie',
+> 				'previsu'   => 'publie,prop,prepa',
+> 				'post_date' => 'date',
+> 				'exception' => array('statut','tout')
+119,120c114,117
+< 			'prepa'    => 'cpub:texte_statut_inactive',
+< 			'publie'   => 'cpub:texte_statut_active',
+---
+> 			'prepa'    => 'texte_statut_en_cours_redaction',
+> 			'prop'     => 'texte_statut_propose_evaluation',
+> 			'publie'   => 'texte_statut_publie',
+> 			'refuse'   => 'texte_statut_refuse',
+140,173d136
+< /**
+<  * Déclaration des tables secondaires
+<  *
+<  * @pipeline declarer_tables_auxiliaires
+<  * @param array $tables
+<  *     Description des tables
+<  * @return array
+<  *     Description complétée des tables
+<  */
+< function cpub_declarer_tables_auxiliaires($tables) {
+<
+< 	$tables['spip_stats_pubs'] = array(
+< 		'field' => array(
+< 			"date"			=> "DATE NOT NULL",
+< 			"id_publicite"	=> "int UNSIGNED NOT NULL",
+< 			"impressions"	=> "int UNSIGNED DEFAULT '0' NOT NULL",
+< 			"clics"			=> "int UNSIGNED DEFAULT '0' NOT NULL",
+< 			"maj"			=> "TIMESTAMP"
+< 		),
+< 		'key' => array(
+< 			"PRIMARY KEY"	=> "date,id_publicite",
+< 			"KEY date"		=> "date"
+< 		)
+< 	);
+<
+< 	return $tables;
+< }
+<
+< function cpub_pre_insertion($flux) {
+<    if ($flux['args']['table'] == 'spip_bannieres') {
+<        $flux['data']['statut'] = 'publie';
+<    }
+<    return $flux;
+< }
+diff -r -x . -x .. -x fabrique_diff.diff -x fabrique_cpub.php ../plugins/fabrique_auto/.backup/cpub/cpub_administrations.php ../plugins/fabrique_auto/cpub/cpub_administrations.php
+6c6
+<  * @copyright  2015
+---
+>  * @copyright  2016
+27c27
+< 	$maj['create'] = array(array('maj_tables', array('spip_publicites', 'spip_bannieres', 'spip_stats_pubs')));
+---
+> 	$maj['create'] = array(array('maj_tables', array('spip_publicites', 'spip_bannieres')));
+45d44
+< 	sql_drop_table("spip_stats_cpubs");
+diff -r -x . -x .. -x fabrique_diff.diff -x fabrique_cpub.php ../plugins/fabrique_auto/.backup/cpub/cpub_autorisations.php ../plugins/fabrique_auto/cpub/cpub_autorisations.php
+6c6
+<  * @copyright  2015
+---
+>  * @copyright  2016
+24,26d23
+< function autoriser_publicite_iconifier_dist($faire,$type,$id,$qui,$opt){
+< 	return false;
+< }
+28,30d24
+< function autoriser_banniere_iconifier_dist($faire,$type,$id,$qui,$opt){
+< 	return false;
+< }
+71c65
+< 	return ($qui['statut'] == '0minirezo' AND sql_countsel('spip_rubriques')>0);
+---
+> 	return $qui['statut'] == '0minirezo';
+116,128d109
+< /**
+<  * Autorisation de créer l'élément (publicite) dans une rubrique
+<  *
+<  * @param  string $faire Action demandée
+<  * @param  string $type  Type d'objet sur lequel appliquer l'action
+<  * @param  int    $id    Identifiant de l'objet
+<  * @param  array  $qui   Description de l'auteur demandant l'autorisation
+<  * @param  array  $opt   Options de cette autorisation
+<  * @return bool          true s'il a le droit, false sinon
+< **/
+< function autoriser_rubrique_creerpublicitedans_dist($faire, $type, $id, $qui, $opt) {
+< 	return ($id AND autoriser('voir','rubrique', $id) AND autoriser('creer','publicite', $id));
+< }
+diff -r -x . -x .. -x fabrique_diff.diff -x fabrique_cpub.php ../plugins/fabrique_auto/.backup/cpub/cpub_fonctions.php ../plugins/fabrique_auto/cpub/cpub_fonctions.php
+6c6
+<  * @copyright  2015
+---
+>  * @copyright  2016
+14,46d13
+< include_spip('public/cpub');
+<
+< /**
+<  * Enregistrement des statistiques
+<  *
+<  * @param int $id_pub
+<  *     Identifiant de la publicité
+<  * @param string $type_stat
+<  *    valeurs possibles : impressions|clics
+<  */
+< function ajouter_stat($id_pub, $type_stat){
+< 	$date = date('Y-m-d');
+< 	sql_query("INSERT INTO spip_stats_pubs (date, id_publicite, $type_stat) VALUES(".sql_quote($date).",".sql_quote($id_pub).",1) ON DUPLICATE KEY UPDATE
+< $type_stat=$type_stat+1");
+< }
+<
+< /**
+<  * Calcul du total des impressions/clics pour une publicité
+<  *
+<  * @param int $id_pub
+<  *     Identifiant de la publicité
+<  * @param string $type_stat
+<  *    valeurs possibles : impressions|clics
+<  * @return int
+<  */
+< function total_stats($id_pub, $type_stat){
+< 	$total = 0;
+< 	$res = sql_select($type_stat, 'spip_stats_pubs', 'id_publicite='.intval($id_pub));
+< 	while ($r = sql_fetch($res)) {
+< 		$total = $total + $r[$type_stat];
+< 	}
+< 	return $total;
+< }
+diff -r -x . -x .. -x fabrique_diff.diff -x fabrique_cpub.php ../plugins/fabrique_auto/.backup/cpub/cpub_options.php ../plugins/fabrique_auto/cpub/cpub_options.php
+6c6
+<  * @copyright  2015
+---
+>  * @copyright  2016
+diff -r -x . -x .. -x fabrique_diff.diff -x fabrique_cpub.php ../plugins/fabrique_auto/.backup/cpub/cpub_pipelines.php ../plugins/fabrique_auto/cpub/cpub_pipelines.php
+6c6
+<  * @copyright  2015
+---
+>  * @copyright  2016
+15,82d14
+< /**
+<  * Ajouter les objets sur les vues de rubriques
+<  *
+<  * @pipeline affiche_enfants
+<  * @param  array $flux Données du pipeline
+<  * @return array       Données du pipeline
+< **/
+< function cpub_affiche_enfants($flux) {
+< 	if ($e = trouver_objet_exec($flux['args']['exec'])
+< 		AND $e['type'] == 'rubrique'
+< 		AND $e['edition'] == false) {
+<
+< 		$id_rubrique = $flux['args']['id_rubrique'];
+< 		$lister_objets = charger_fonction('lister_objets', 'inc');
+<
+< 		$bouton = '';
+< 		if (autoriser('creerpublicitedans', 'rubrique', $id_rubrique)) {
+< 			$bouton .= icone_verticale(_T("publicite:icone_creer_publicite"), generer_url_ecrire("publicite_edit", "id_rubrique=$id_rubrique"), "publicite-24.png", "new", "right")
+< 					. "<br class='nettoyeur' />";
+< 		}
+<
+< 		$flux['data'] .= $lister_objets('publicites', array('titre'=>_T('publicite:titre_publicites_rubrique') , 'id_rubrique'=>$id_rubrique, 'par'=>'titre'));
+< 		$flux['data'] .= $bouton;
+<
+< 	}
+< 	return $flux;
+< }
+<
+<
+< /**
+<  * Compter les enfants d'une rubrique
+<  *
+<  * @pipeline objets_compte_enfants
+<  * @param  array $flux Données du pipeline
+<  * @return array       Données du pipeline
+< **/
+< function cpub_objet_compte_enfants($flux) {
+< 	if ($flux['args']['objet']=='rubrique'
+< 		AND $id_rubrique=intval($flux['args']['id_objet'])) {
+<
+<
+< 		// juste les publiés ?
+< 		if (array_key_exists('statut', $flux['args']) and ($flux['args']['statut'] == 'publie')) {
+< 			$flux['data']['publicites'] = sql_countsel('spip_publicites', "id_rubrique=".intval($id_rubrique)." AND (statut='publie')");
+< 		} else {
+< 			$flux['data']['publicites'] = sql_countsel('spip_publicites', "id_rubrique=".intval($id_rubrique)." AND (statut<>'poubelle')");
+< 		}
+<
+<
+< 	}
+< 	return $flux;
+< }
+<
+< /**
+<  * Optimiser la base de données en supprimant les liens orphelins
+<  * de l'objet vers quelqu'un et de quelqu'un vers l'objet.
+<  *
+<  * @pipeline optimiser_base_disparus
+<  * @param  array $flux Données du pipeline
+<  * @return array       Données du pipeline
+<  */
+< function cpub_optimiser_base_disparus($flux){
+< 	$mydate = $flux['args']['date'];
+< 	sql_delete("spip_publicites", "statut='poubelle' AND maj < $mydate");
+< 	sql_delete("spip_bannieres", "statut='poubelle' AND maj < $mydate");
+<
+< 	return $flux;
+< }
+diff -r -x . -x .. -x fabrique_diff.diff -x fabrique_cpub.php ../plugins/fabrique_auto/.backup/cpub/formulaires/editer_banniere.php ../plugins/fabrique_auto/cpub/formulaires/editer_banniere.php
+6c6
+<  * @copyright  2015
+---
+>  * @copyright  2016
+diff -r -x . -x .. -x fabrique_diff.diff -x fabrique_cpub.php ../plugins/fabrique_auto/.backup/cpub/formulaires/editer_publicite.html ../plugins/fabrique_auto/cpub/formulaires/editer_publicite.html
+1,7d0
+< #SET{liste_bannieres,#ARRAY}
+< <BOUCLE_liste_bannieres(BANNIERES){par nom}>
+< 	#SET{liste_bannieres, #GET{liste_bannieres}|array_merge{#ARRAY{#NOM, #ID_BANNIERE}}}
+< </BOUCLE_liste_bannieres>
+< 	#SET{liste_bannieres, #GET{liste_bannieres}|array_flip}
+< </B_liste_bannieres>
+<
+13c6
+< 	<form method='post' action='#ENV{action}' enctype='multipart/form-data'><div>
+---
+> 	<form method='post' action='#ENV{action}'><div>
+16c9
+< 		[<(#VAL{ul}|saisie_balise_structure_formulaire) class='editer-groupe'>]
+---
+> 		<ul>
+21,27d13
+< 			[<li class="editer editer_rubrique[ (#ENV**{erreurs/id_parent}|oui)erreur]">
+< 					<label for="id_parent"><:titre_cadre_interieur_rubrique:></label>[
+< 					<span class="erreur_message">(#ENV**{erreurs/id_parent})</span>
+< 					]
+< 					(#VAL|chercher_rubrique{#ENV{id_publicite},#ENV{id_parent},'publicite',#ENV{id_secteur},'',0,form_simple})
+< 			</li>]
+<
+31,82c17,39
+< 			[<(#VAL{li}|saisie_balise_structure_formulaire) class='fieldset'>]
+< 				<fieldset>
+< 					<legend><:publicite:label_fieldset_affichage:></legend>
+<
+< 					[(#SAISIE{textarea, iframe,
+< 						label=<:publicite:champ_iframe_label:>,rows=3})]
+<
+< 					[(#SAISIE{selection, id_banniere, defaut=Choisir,
+< 						label=<:banniere:titre_banniere:>,
+< 						datas=#GET{liste_bannieres}})]
+< 				</fieldset>
+< 			[</(#VAL{li}|saisie_balise_structure_formulaire)>]
+<
+< 			[<(#VAL{li}|saisie_balise_structure_formulaire) class='fieldset'>]
+< 				<fieldset>
+< 					<legend><:publicite:label_fieldset_planning:></legend>
+<
+< 					[(#SAISIE{radio, illimite,
+< 						label=<:publicite:champ_illimite_label:>,
+< 						datas=[(#ARRAY{oui,Oui,non,Non})]})]
+<
+< 					[(#SAISIE{date, date_debut,
+< 						label=<:publicite:champ_date_debut_label:>,
+< 						horaire=oui})]
+<
+< 					[(#SAISIE{date, date_fin,
+< 						label=<:publicite:champ_date_fin_label:>,
+< 						horaire=oui})]
+< 				</fieldset>
+< 			[</(#VAL{li}|saisie_balise_structure_formulaire)>]
+<
+< 			[<(#VAL{li}|saisie_balise_structure_formulaire) class='fieldset'>]
+< 				<fieldset>
+< 					<legend><:publicite:label_fieldset_redirection:></legend>
+<
+< 					[(#SAISIE{input, url_site,
+< 						label=<:publicite:champ_url_site_label:>,
+< 						explication=<:publicite:champ_url_site_explication:> })]
+<
+< 					[(#SAISIE{radio, target,
+< 						label=<:publicite:champ_target_label:>,
+< 						datas=[(#ARRAY{oui,Oui,non,Non})]})]
+< 				</fieldset>
+< 			[</(#VAL{li}|saisie_balise_structure_formulaire)>]
+<
+< 			[<(#VAL{li}|saisie_balise_structure_formulaire) class='fieldset'>]
+< 				<fieldset>
+< 					<legend><:publicite:label_fieldset_regie:></legend>
+< 					[(#SAISIE{input, pixel,
+< 						label=<:publicite:champ_pixel_label:>})]
+< 				</fieldset>
+< 			[</(#VAL{li}|saisie_balise_structure_formulaire)>]
+---
+> 			[(#SAISIE{textarea, iframe,
+> 				label=<:publicite:champ_iframe_label:>,
+> 				li_class=haut, rows=3})]
+>
+> 			[(#SAISIE{radio, illimite,
+> 				label=<:publicite:champ_illimite_label:>,
+> 				datas=[(#ARRAY{oui,Oui,non,Non})]})]
+>
+> 			[(#SAISIE{date, date_debut,
+> 				label=<:publicite:champ_date_debut_label:>,
+> 				horaire=oui})]
+>
+> 			[(#SAISIE{date, date_fin,
+> 				label=<:publicite:champ_date_fin_label:>,
+> 				horaire=oui})]
+>
+> 			[(#SAISIE{input, url_site,
+> 				label=<:publicite:champ_url_site_label:>,
+> 				explication=<:publicite:champ_url_site_explication:> })]
+>
+> 			[(#SAISIE{radio, target,
+> 				label=<:publicite:champ_target_label:>,
+> 				datas=[(#ARRAY{oui,Oui,non,Non})]})]
+84c41,42
+< 		[</(#VAL{ul}|saisie_balise_structure_formulaire)>]
+---
+> 			[(#SAISIE{input, pixel,
+> 				label=<:publicite:champ_pixel_label:>})]
+85a44
+> 		</ul>
+diff -r -x . -x .. -x fabrique_diff.diff -x fabrique_cpub.php ../plugins/fabrique_auto/.backup/cpub/formulaires/editer_publicite.php ../plugins/fabrique_auto/cpub/formulaires/editer_publicite.php
+6c6
+<  * @copyright  2015
+---
+>  * @copyright  2016
+22,23d21
+<  * @param int $id_rubrique
+<  *     Identifiant de la rubrique parente (si connue)
+37c35
+< function formulaires_editer_publicite_identifier_dist($id_publicite='new', $id_rubrique=0, $retour='', $lier_trad=0, $config_fonc='', $row=array(), $hidden=''){
+---
+> function formulaires_editer_publicite_identifier_dist($id_publicite='new', $retour='', $lier_trad=0, $config_fonc='', $row=array(), $hidden=''){
+50,51d47
+<  * @param int $id_rubrique
+<  *     Identifiant de la rubrique parente (si connue)
+65,66c61,62
+< function formulaires_editer_publicite_charger_dist($id_publicite='new', $id_rubrique=0, $retour='', $lier_trad=0, $config_fonc='', $row=array(), $hidden=''){
+< 	$valeurs = formulaires_editer_objet_charger('publicite',$id_publicite,$id_rubrique,$lier_trad,$retour,$config_fonc,$row,$hidden);
+---
+> function formulaires_editer_publicite_charger_dist($id_publicite='new', $retour='', $lier_trad=0, $config_fonc='', $row=array(), $hidden=''){
+> 	$valeurs = formulaires_editer_objet_charger('publicite',$id_publicite,'',$lier_trad,$retour,$config_fonc,$row,$hidden);
+79,80d74
+<  * @param int $id_rubrique
+<  *     Identifiant de la rubrique parente (si connue)
+94c88
+< function formulaires_editer_publicite_verifier_dist($id_publicite='new', $id_rubrique=0, $retour='', $lier_trad=0, $config_fonc='', $row=array(), $hidden=''){
+---
+> function formulaires_editer_publicite_verifier_dist($id_publicite='new', $retour='', $lier_trad=0, $config_fonc='', $row=array(), $hidden=''){
+99d92
+< 	/* Gestion des dates */
+128,129d120
+<  * @param int $id_rubrique
+<  *     Identifiant de la rubrique parente (si connue)
+143,145c134,135
+< function formulaires_editer_publicite_traiter_dist($id_publicite='new', $id_rubrique=0, $retour='', $lier_trad=0, $config_fonc='', $row=array(), $hidden=''){
+<
+< 	return formulaires_editer_objet_traiter('publicite',$id_publicite,$id_rubrique,$lier_trad,$retour,$config_fonc,$row,$hidden);
+---
+> function formulaires_editer_publicite_traiter_dist($id_publicite='new', $retour='', $lier_trad=0, $config_fonc='', $row=array(), $hidden=''){
+> 	return formulaires_editer_objet_traiter('publicite',$id_publicite,'',$lier_trad,$retour,$config_fonc,$row,$hidden);
+diff -r -x . -x .. -x fabrique_diff.diff -x fabrique_cpub.php ../plugins/fabrique_auto/.backup/cpub/lang/cpub_fr.php ../plugins/fabrique_auto/cpub/lang/cpub_fr.php
+13,19c13
+<
+< 	// E
+< 	'export' => 'Export',
+< 	// S
+< 	'impressions' => 'Impressions',
+< 	'clics' => 'Clics',
+<
+---
+>
+21,22d14
+< 	'texte_statut_active' => 'Active',
+< 	'texte_statut_inactive' => 'Inactive',
+24d15
+<
+diff -r -x . -x .. -x fabrique_diff.diff -x fabrique_cpub.php ../plugins/fabrique_auto/.backup/cpub/lang/publicite_fr.php ../plugins/fabrique_auto/cpub/lang/publicite_fr.php
+32,37d31
+< 	// L
+< 	'label_fieldset_affichage' => 'Affichage',
+< 	'label_fieldset_planning' => 'Planning',
+< 	'label_fieldset_redirection' => 'Redirection',
+< 	'label_fieldset_regie' => 'Régie',
+<
+Only in ../plugins/fabrique_auto/.backup/cpub/: modeles
+diff -r -x . -x .. -x fabrique_diff.diff -x fabrique_cpub.php ../plugins/fabrique_auto/.backup/cpub/paquet.xml ../plugins/fabrique_auto/cpub/paquet.xml
+12c12
+< 		Paquet genere le 2015-12-28 12:23:06
+---
+> 		Paquet genere le 2016-01-03 22:12:06
+21,22c21
+< 	<necessite nom="verifier" compatibilite="[1.0.0;]" />
+< 	<utilise nom="statistiques" compatibilite="[0.4.*;]" />
+---
+> 	<necessite nom="verifier" compatibilite="[1.0.0;]" />
+27,32c26
+< 	<pipeline nom="declarer_tables_interfaces" inclure="base/cpub.php" />
+< 	<pipeline nom="declarer_tables_auxiliaires" inclure="base/cpub.php" />
+< 	<pipeline nom="affiche_enfants" inclure="cpub_pipelines.php" />
+< 	<pipeline nom="objet_compte_enfants" inclure="cpub_pipelines.php" />
+< 	<pipeline nom="optimiser_base_disparus" inclure="cpub_pipelines.php" />
+< 	<pipeline nom="pre_insertion" inclure="base/cpub.php" />
+---
+> 	<pipeline nom="declarer_tables_interfaces" inclure="base/cpub.php" />
+35,39c29
+< 	<menu nom="publicite_creer" titre="publicite:icone_creer_publicite" parent="outils_rapides" icone="images/publicite-new-16.png" action="publicite_edit" parametres="new=oui" />
+<
+< 	<onglet nom="publicites" titre="publicite:titre_publicites" parent="publicites" icone="images/publicite-16.png" action="publicites" />
+< 	<onglet nom="bannieres" titre="banniere:titre_bannieres" parent="publicites" icone="images/banniere-16.png" action="bannieres"  />
+< 	<onglet nom="stats_pubs" titre="paquet-stats:stats_nom" parent="publicites" icone="images/statistique-16.png" />
+---
+> 	<menu nom="publicite_creer" titre="publicite:icone_creer_publicite" parent="outils_rapides" icone="images/publicite-new-16.png" action="publicite_edit" parametres="new=oui" />
+diff -r -x . -x .. -x fabrique_diff.diff -x fabrique_cpub.php ../plugins/fabrique_auto/.backup/cpub/prive/objets/contenu/banniere.html ../plugins/fabrique_auto/cpub/prive/objets/contenu/banniere.html
+2a3,7
+> [<div class="champ contenu_nom[ (#NOM*|strlen|?{'',vide})]">
+> 	<label><:banniere:champ_nom_label:> : </label>
+> 	<span dir='#LANG_DIR' class='#EDIT{nom} nom'>(#NOM)</span>
+> </div>]
+>
+diff -r -x . -x .. -x fabrique_diff.diff -x fabrique_cpub.php ../plugins/fabrique_auto/.backup/cpub/prive/objets/contenu/publicite.html ../plugins/fabrique_auto/cpub/prive/objets/contenu/publicite.html
+2a3,7
+> [<div class="champ contenu_titre[ (#TITRE*|strlen|?{'',vide})]">
+> 	<label><:publicite:champ_titre_label:> : </label>
+> 	<span dir='#LANG_DIR' class='#EDIT{titre} titre'>(#TITRE)</span>
+> </div>]
+>
+8,9d12
+< <hr>
+<
+Only in ../plugins/fabrique_auto/.backup/cpub/prive/objets/infos: banniere.html
+diff -r -x . -x .. -x fabrique_diff.diff -x fabrique_cpub.php ../plugins/fabrique_auto/.backup/cpub/prive/objets/infos/publicite.html ../plugins/fabrique_auto/cpub/prive/objets/infos/publicite.html
+7a8,26
+> [(#REM)
+>
+> 	Bouton voir en ligne
+>
+> ]
+> <BOUCLE_publie(PUBLICITES){id_publicite}>
+> 	[(#VAL{redirect}
+> 		|generer_url_action{type=publicites&id=#ID_PUBLICITE}
+> 		|parametre_url{var_mode,calcul}
+> 		|icone_horizontale{<:icone_voir_en_ligne:>,racine})]
+> </BOUCLE_publie>
+> 	[(#AUTORISER{previsualiser,publicites,#ID_PUBLICITE,'',#ARRAY{statut,#STATUT}})
+> 		[(#VAL{redirect}
+> 			|generer_url_action{type=publicites&id=#ID_PUBLICITE}
+> 			|parametre_url{var_mode,preview}
+> 			|icone_horizontale{<:previsualiser:>,preview})]
+> 	]
+> <//B_publie>
+>
+diff -r -x . -x .. -x fabrique_diff.diff -x fabrique_cpub.php ../plugins/fabrique_auto/.backup/cpub/prive/objets/liste/publicites.html ../plugins/fabrique_auto/cpub/prive/objets/liste/publicites.html
+19c19
+< 	<BOUCLE_liste_publicites(PUBLICITES){id_rubrique?}{id_secteur?}{id_mot?}{id_auteur?}{where?}{statut?}{recherche?}{tri #ENV{par,num titre},#GET{defaut_tri}}{par titre}{pagination #ENV{nb,10}}>
+---
+> 	<BOUCLE_liste_publicites(PUBLICITES){id_mot?}{id_auteur?}{where?}{statut?}{recherche?}{tri #ENV{par,num titre},#GET{defaut_tri}}{par titre}{pagination #ENV{nb,10}}>
+22c22
+< 			<td class='statut'>[(#STATUT|puce_statut{publicite,#ID_PUBLICITE,#ID_RUBRIQUE})]</td>
+---
+> 			<td class='statut'>[(#STATUT|puce_statut{publicite,#ID_PUBLICITE})]</td>
+Only in ../plugins/fabrique_auto/.backup/cpub/prive/objets/liste: stats_publicites.html
+diff -r -x . -x .. -x fabrique_diff.diff -x fabrique_cpub.php ../plugins/fabrique_auto/.backup/cpub/prive/squelettes/contenu/banniere.html ../plugins/fabrique_auto/cpub/prive/squelettes/contenu/banniere.html
+28a29,37
+> [(#AUTORISER{modifier,banniere,#ID_BANNIERE})
+> 	[(#ID_BANNIERE|afficher_qui_edite{banniere}|non)
+> 		[(#URL_ECRIRE{banniere_edit,id_banniere=#ID_BANNIERE}|icone_verticale{<:banniere:icone_modifier_banniere:>,banniere,edit,right ajax preload})]
+> 	]
+> 	[(#ID_BANNIERE|afficher_qui_edite{banniere}|oui)
+> 		[(#URL_ECRIRE{banniere_edit,id_banniere=#ID_BANNIERE}|icone_verticale{#ID_BANNIERE|afficher_qui_edite{banniere},warning-24,'',right edition_deja ajax preload})]
+> 	]
+> ]
+>
+diff -r -x . -x .. -x fabrique_diff.diff -x fabrique_cpub.php ../plugins/fabrique_auto/.backup/cpub/prive/squelettes/contenu/bannieres.html ../plugins/fabrique_auto/cpub/prive/squelettes/contenu/bannieres.html
+1,5c1
+< <h1 class="grostitre"><:publicite:titre_publicites:></h1>
+<
+< [(#REM) <!-- Barre d'onglets de premier niveau --> ]
+< [(#VAL{publicites}|barre_onglets{bannieres})]
+<
+---
+> #FORMULAIRE_RECHERCHE_ECRIRE{#SELF,ajax}
+diff -r -x . -x .. -x fabrique_diff.diff -x fabrique_cpub.php ../plugins/fabrique_auto/.backup/cpub/prive/squelettes/contenu/publicite.html ../plugins/fabrique_auto/cpub/prive/squelettes/contenu/publicite.html
+28a29,37
+> [(#AUTORISER{modifier,publicite,#ID_PUBLICITE})
+> 	[(#ID_PUBLICITE|afficher_qui_edite{publicite}|non)
+> 		[(#URL_ECRIRE{publicite_edit,id_publicite=#ID_PUBLICITE}|icone_verticale{<:publicite:icone_modifier_publicite:>,publicite,edit,right ajax preload})]
+> 	]
+> 	[(#ID_PUBLICITE|afficher_qui_edite{publicite}|oui)
+> 		[(#URL_ECRIRE{publicite_edit,id_publicite=#ID_PUBLICITE}|icone_verticale{#ID_PUBLICITE|afficher_qui_edite{publicite},warning-24,'',right edition_deja ajax preload})]
+> 	]
+> ]
+>
+diff -r -x . -x .. -x fabrique_diff.diff -x fabrique_cpub.php ../plugins/fabrique_auto/.backup/cpub/prive/squelettes/contenu/publicites.html ../plugins/fabrique_auto/cpub/prive/squelettes/contenu/publicites.html
+1,5d0
+< <h1 class="grostitre"><:publicite:titre_publicites:></h1>
+<
+< [(#REM) <!-- Barre d'onglets de premier niveau --> ]
+< [(#VAL{publicites}|barre_onglets{publicites})]
+<
+Only in ../plugins/fabrique_auto/.backup/cpub/prive/squelettes/contenu: stats_pubs.html
+Only in ../plugins/fabrique_auto/.backup/cpub/prive: transmettre
+Only in ../plugins/fabrique_auto/.backup/cpub/: public

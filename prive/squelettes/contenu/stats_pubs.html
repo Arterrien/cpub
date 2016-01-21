@@ -1,0 +1,12 @@
+<h1 class="grostitre"><:publicite:titre_publicites:></h1>
+
+[(#REM) <!-- Barre d'onglets de premier niveau --> ]
+[(#VAL{publicites}|barre_onglets{stats_pubs})]
+
+<div class="nettoyeur"></div>
+
+<INCLURE{fond=prive/objets/liste/stats_publicites, par=titre, env, ajax, sinon=<:publicite:info_aucun_publicite:>}>
+
+[(#AUTORISER{creer,publicite})
+	[(#URL_ECRIRE{publicite_edit,new=oui}|icone_verticale{<:publicite:icone_creer_publicite:>,publicite,new,right})]
+]
