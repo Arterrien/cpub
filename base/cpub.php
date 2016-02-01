@@ -82,7 +82,7 @@ function cpub_declarer_tables_objets_sql($tables) {
 				'champ'     => 'statut',
 				'publie'    => 'publie',
 				'previsu'   => 'publie,prop,prepa',
-				'post_date' => 'date', 
+				//'post_date' => 'date', 
 				'exception' => array('statut','tout')
 			)
 		),
@@ -122,7 +122,7 @@ function cpub_declarer_tables_objets_sql($tables) {
 				'champ'     => 'statut',
 				'publie'    => 'publie',
 				'previsu'   => 'publie,prop,prepa',
-				'post_date' => 'date', 
+				//'post_date' => 'date', 
 				'exception' => array('statut','tout')
 			)
 		),
