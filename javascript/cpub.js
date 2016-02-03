@@ -78,7 +78,6 @@ $(function(){
 			// l'impression de la pub est désormais enregistrée
 			p.isShown = true;
 		}
-		console.log(p.id, p.isShown);
 	}
 	
 	// Est-ce que cette pub est déjà enregistrée ?
