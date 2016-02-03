@@ -1,9 +1,7 @@
 #CACHE{0}
-#SET{aujourdhui, #DATE}
-
 <BOUCLE_publicite(PUBLICITES){publicite_en_cours}{banniere=#ENV{banniere}}{id_publicite?}{par rang}{rang?}>
 		#SET{id_pub, #ID_PUBLICITE}
-		<div>
+		<div class="cpub" data-id="#ID_PUBLICITE">
 			<BOUCLE_affiche(DOCUMENTS){id_publicite}>
 				<a href="#_publicite:URL_SITE"[(#TARGET|=={oui}|oui)target="_blank"]><img src="#FICHIER" alt="Pub" id="pub_#ID_PUBLICITE"></a>
 				[<img src="(#PIXEL)" style='display:none'>]
@@ -13,12 +11,12 @@
 		</div>
 </BOUCLE_publicite>
 
+<!--
 <script>/*<![CDATA[*/
 $(function(){
 	var clicked_#GET{id_pub} = false;
 	var isPubVisible = function(){		
 		if($("img#pub_#GET{id_pub}").visible()){
-			console.log("pub_#GET{id_pub} : ", $("img#pub_#GET{id_pub}").visible());
 			$.ajax({
 				method:'POST',
 				url: "#URL_PAGE{action_stats}",
@@ -46,3 +44,4 @@ $(function(){
 });
 /*]]>*/</script>
 </B_publicite>
+-->
