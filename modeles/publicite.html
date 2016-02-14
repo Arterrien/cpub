@@ -10,38 +10,3 @@
 			<//B_affiche>
 		</div>
 </BOUCLE_publicite>
-
-<!--
-<script>/*<![CDATA[*/
-$(function(){
-	var clicked_#GET{id_pub} = false;
-	var isPubVisible = function(){		
-		if($("img#pub_#GET{id_pub}").visible()){
-			$.ajax({
-				method:'POST',
-				url: "#URL_PAGE{action_stats}",
-				data:{id : '#GET{id_pub}', type_stat : 'impressions'}
-			});
-		}
-	};
-
-	$("img#pub_#GET{id_pub}").on('load', isPubVisible);
-	
-	$("img#pub_#GET{id_pub}").on('click',function(event){
-		if(!clicked_#GET{id_pub}) {
-			clicked_#GET{id_pub} = true;
-			$.ajax({
-				method:'POST',
-				url: "#URL_PAGE{action_stats}",
-				data:{id: '#GET{id_pub}', type_stat: 'clics'}
-			});
-		} else {
-			setTimeout(function() {
-				clicked_#GET{id_pub} = false;
-			}, 3000);
-		}
-	});
-});
-/*]]>*/</script>
-</B_publicite>
--->

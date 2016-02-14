@@ -31,12 +31,12 @@ function cpub_optimiser_base_disparus($flux){
 // Calcule et insere le javascript necessaire pour la page
 function cpub_insert_head($flux){
 	$js = '<script type="text/javascript" src="'
-	. find_in_path('javascript/jquery.visible.min.js')
+	. find_in_path('javascript/lodash.js')
 	. '"></script>'
 	. "\n";
 	
 	$js .= '<script type="text/javascript" src="'
-	. find_in_path('javascript/lodash.min.js')
+	. find_in_path('javascript/jquery.isonscreen.js')
 	. '"></script>'
 	. "\n";
 	

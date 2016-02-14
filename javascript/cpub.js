@@ -1,9 +1,9 @@
 $(function(){
 	
-	// Tableau des pubs actuellement chargées
+	// Tableau des pubs de la page chargées
 	// par document.load ou ajax.load
 	var registeredPubs = [];
-	
+		
 	// URL des requêtes ajax
 	var ajaxUrl = "spip.php?page=action_stats";
 	
@@ -11,30 +11,35 @@ $(function(){
 	function init(){
 		if($('.cpub').length){
 			_.each($('.cpub'), function(pub){
-				if(!isRegistered(pub.getAttribute('data-id'))){
-					registerPub(pub);
-				}
+				registerPub(pub);
 			});
 		}
 	}
 	
 	// Enregistrement de l'encart dans 
-	// la liste des pubs chargées
-	// @ pub : DOM de la pub concernée
-	function registerPub(pub){
+	// la liste des pubs de la page
+	// @ el : element html de la pub à enregistrer
+	function registerPub(el){
+		
+		// Si la pub est déjà enregitrée on fait rien
+		if(isRegistered(el.getAttribute('data-id'))){
+			return;
+		}
+		
 		// Création de lobjet pub pour le suivi
 		var p = {
-			id: pub.getAttribute('data-id'),
+			id: el.getAttribute('data-id'),
 			isClicked: false,
 			isShown: false,
-			dom: pub
+			element: el,
+			image: el.getElementsByTagName('img')
 		};
 		
-		// Enregistrer les impressions
+		// Écouter les impressions
 		// (affichages de la publicité)
 		registerImpressions(p);
 		
-		// Enregistrer les clics
+		// Écouter les clics
 		addClicCounter(p);
 		
 		// Enregistrement
@@ -44,7 +49,7 @@ $(function(){
 	// Écouter les clics de la pub
 	// @pubObject: Objet représentant la pub
 	function addClicCounter(pubObject){
-		$(pubObject.dom).on('click', function(event){
+		$(pubObject.element).on('click', function(event){
 			// Si la pub ne vient pas d'être cliquée
 			// (elle n'a pas la classe clicked
 			if(!pubObject.isClicked){
@@ -67,15 +72,18 @@ $(function(){
 	}
 	
 	// enregistrer une impression
+	// si au moins 70% de la pub
+	// est dans le viewport
 	// @p : Objet représentant la pub
 	function registerImpressions(p){
-		if(!p.isShown && $(p.dom).visible()){
+		if(!p.isShown && $('[data-id="' + p.id + '"]').isOnScreen(0.7, 0.7)){
 			$.ajax({
 				method:'POST',
 				url: ajaxUrl,
 				data:{id: p.id, type_stat:'impressions'}
 			});
-			// l'impression de la pub est désormais enregistrée
+			// Enregistrement de l'impression
+			// pour cette pub
 			p.isShown = true;
 		}
 	}
@@ -101,12 +109,12 @@ $(function(){
 	
 	// Lancement du script à la fin d'une requête ajax
 	$(document).ajaxComplete(function(event, jqxhr, options){
-		if(jqxhr.responseText.indexOf('cpub') > 0){
-			init();
+		if($(jqxhr.responseText).find('.cpub')[0]){
+			registerPub($(jqxhr.responseText).find('.cpub')[0]);
 		}
 	});
 	
-	// Ecouter le scroll et vérifier si la pub est affichées
+	// Ecouter le scroll et vérifier si la pub est affichée
 	$(window).on('scroll', _.debounce(function(){
 		_.each(registeredPubs, function(pub){
 			registerImpressions(pub);
