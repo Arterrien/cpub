@@ -1,4 +1,4 @@
-$(function(){
+(function($){
 	
 	// Tableau des pubs de la page chargées
 	// par document.load ou ajax.load
@@ -121,4 +121,4 @@ $(function(){
 		});
 	}, 300));
 
-}());
+})(jQuery);
