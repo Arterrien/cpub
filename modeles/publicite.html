@@ -1,5 +1,5 @@
 #CACHE{0}
-<BOUCLE_publicite(PUBLICITES){publicite_en_cours}{banniere=#ENV{banniere}}{id_publicite?}{par rang}{rang?}>
+<BOUCLE_publicite(PUBLICITES){publicite_en_cours}{banniere=#ENV{banniere}}{id_publicite?}{par rang}{rang?}{par hasard}{0,1}>
 		#SET{id_pub, #ID_PUBLICITE}
 		<div class="cpub" data-id="#ID_PUBLICITE">
 			<BOUCLE_affiche(DOCUMENTS){id_publicite}>
