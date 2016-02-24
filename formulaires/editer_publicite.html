@@ -1,5 +1,5 @@
 #SET{liste_bannieres,#ARRAY}
-<BOUCLE_liste_bannieres(BANNIERES){par nom}>
+<BOUCLE_liste_bannieres(BANNIERES){par nom}{tous}>
 	#SET{liste_bannieres, #GET{liste_bannieres}|array_merge{#ARRAY{#NOM, #NOM}}}
 </BOUCLE_liste_bannieres>
 
