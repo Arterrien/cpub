@@ -25,6 +25,9 @@ function cpub_upgrade($nom_meta_base_version, $version_cible) {
 	$maj = array();
 
 	$maj['create'] = array(array('maj_tables', array('spip_publicites', 'spip_bannieres', 'spip_stats_pubs')));
+	$maj['1.0.1'] = array(
+							array('sql_alter', "TABLE `spip_publicites` ADD `click_tracker` TEXT NOT NULL AFTER `pixel`")
+		);
 
 	include_spip('base/upgrade');
 	maj_plugin($nom_meta_base_version, $version_cible, $maj);

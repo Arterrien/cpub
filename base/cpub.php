@@ -58,6 +58,7 @@ function cpub_declarer_tables_objets_sql($tables) {
 			"url_site"		=> "text NOT NULL DEFAULT ''",
 			"target"		=> "varchar(3) NOT NULL DEFAULT 'non'",
 			"pixel"			=> "text NOT NULL DEFAULT ''",
+			"click_traker"	=> "text NOT NULL DEFAULT ''",
 			"statut"		=> "varchar(20)  DEFAULT '0' NOT NULL", 
 			"maj"			=> "TIMESTAMP"
 		),
@@ -67,7 +68,7 @@ function cpub_declarer_tables_objets_sql($tables) {
 		),
 		'titre' => "titre AS titre, '' AS lang",
 		 #'date' => "",
-		'champs_editables'  => array('titre', 'annonceur', 'iframe', 'banniere', 'rang', 'illimite', 'date_debut', 'date_fin', 'url_site', 'target', 'pixel'),
+		'champs_editables'  => array('titre', 'annonceur', 'iframe', 'banniere', 'rang', 'illimite', 'date_debut', 'date_fin', 'url_site', 'target', 'pixel', 'click_tracker'),
 		'champs_versionnes' => array(),
 		'rechercher_champs' => array("titre" => 8, "annonceur" => 5),
 		'tables_jointures'  => array(),
