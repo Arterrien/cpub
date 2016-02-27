@@ -5,7 +5,6 @@
 			<BOUCLE_affiche(DOCUMENTS){id_publicite}>
 				<a href="#_publicite:URL_SITE"[(#TARGET|=={oui}|oui)target="_blank"]><img src="#FICHIER" alt="Pub" id="pub_#ID_PUBLICITE"></a>
 				[<img src="(#PIXEL)" style='display:none'>]
-				[<div style='display:none'><a href='(#CLICK_TRAKER)'></a></div>]
 			</BOUCLE_affiche>
 				[(#IFRAME)]
 			<//B_affiche>
