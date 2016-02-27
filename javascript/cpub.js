@@ -32,7 +32,7 @@
 			isClicked: false,
 			isShown: false,
 			element: el,
-			image: el.getElementsByTagName('img')
+			image: document.getElementById('pub_' + el.getAttribute('data-id'))
 		};
 		
 		// Écouter les impressions
@@ -40,7 +40,7 @@
 		registerImpressions(p);
 		
 		// Écouter les clics
-		addClicCounter(p);
+		addClickCounter(p);
 		
 		// Enregistrement
 		registeredPubs.push(p);
@@ -48,8 +48,8 @@
 	
 	// Écouter les clics de la pub
 	// @pubObject: Objet représentant la pub
-	function addClicCounter(pubObject){
-		$(pubObject.element).on('click', function(event){
+	function addClickCounter(pubObject){
+		$('.cpub[data-id="' + pubObject.id + '"').on('click', function(event){
 			// Si la pub ne vient pas d'être cliquée
 			// (elle n'a pas la classe clicked
 			if(!pubObject.isClicked){
@@ -67,6 +67,13 @@
 					// et on supprime la classe clicked
 					pubObject.isClicked = false;
 				}, 3000);
+			}
+			// Si click tracking, appel de l'url de tracking
+			if(pubObject.element.getAttribute('data-click-tracker')){
+				$.ajax({
+					method: 'GET',
+					url: pubObject.element.getAttribute('data-click-tracker')
+				});
 			}
 		});
 	}

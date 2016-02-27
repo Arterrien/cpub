@@ -1,10 +1,12 @@
 #CACHE{0}
 <BOUCLE_publicite(PUBLICITES){publicite_en_cours}{banniere=#ENV{banniere}}{id_publicite?}{par rang}{rang?}{par hasard}{0,1}>
 		#SET{id_pub, #ID_PUBLICITE}
-		<div class="cpub" data-id="#ID_PUBLICITE">
+		<div class="cpub" data-id="#ID_PUBLICITE"[ data-click-tracker="(#CLICK_TRACKER)"]>
 			<BOUCLE_affiche(DOCUMENTS){id_publicite}>
-				<a href="#_publicite:URL_SITE"[(#TARGET|=={oui}|oui)target="_blank"]><img src="#FICHIER" alt="Pub" id="pub_#ID_PUBLICITE"></a>
-				[<img src="(#PIXEL)" style='display:none'>]
+				<a href="#_publicite:URL_SITE"[(#TARGET|=={oui}|oui)target="_blank"] style='text-align:center;'>
+					<img src="#FICHIER" alt="Pub" id="pub_#ID_PUBLICITE">
+				</a>
+				[<img src="(#PIXEL)" style='height:1px !important; width:1px !important; border: 0 !important; margin: 0 !important; padding: 0 !important; position: absolute !important;' width="1" height="1" border="0">]
 			</BOUCLE_affiche>
 				[(#IFRAME)]
 			<//B_affiche>
