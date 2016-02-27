@@ -83,7 +83,8 @@
 	// est dans le viewport
 	// @p : Objet représentant la pub
 	function registerImpressions(p){
-		if(!p.isShown && $('[data-id="' + p.id + '"]').isOnScreen(0.7, 0.7)){
+
+		if(!p.isShown && $('[data-id="' + p.id + '"]').isOnScreen(0.9, 0.9)){
 			$.ajax({
 				method:'POST',
 				url: ajaxUrl,
