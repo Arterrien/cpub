@@ -31,8 +31,8 @@ function critere_publicite_en_cours_dist($idb, &$boucles, $crit) {
 	// pour savoir si les dates utilisent les heures ou pas.	
 	$where_jour_sans_heure =
 		array("'AND'",
-			array("'<='", "'$_date_debut'", "sql_quote(date('Y-m-d 23:59:59', strtotime($_dateref)))"),
-			array("'>='", "'$_date_fin'", "sql_quote(date('Y-m-d 00:00:00', strtotime($_dateref)))")
+			array("'<='", "'$_date_debut'", "sql_quote(date('Y-m-d H:i:59'))"),
+			array("'>='", "'$_date_fin'", "sql_quote(date('Y-m-d H:i:00'))")
 		);
 		
 	if (array_key_exists('illimite', $boucle->show['field'])) {
