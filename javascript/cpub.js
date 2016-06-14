@@ -49,7 +49,7 @@
 	// Écouter les clics de la pub
 	// @pubObject: Objet représentant la pub
 	function addClickCounter(pubObject){
-		$('.cpub[data-id="' + pubObject.id + '"').on('click', function(event){
+		$('.cpub[data-id="' + pubObject.id + '"]').on('click', function(event){
 			// Si la pub ne vient pas d'être cliquée
 			// (elle n'a pas la classe clicked
 			if(!pubObject.isClicked){
